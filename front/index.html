@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTH</title>
+
+    <!-- 필요한 CSS 및 js 파일  -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://demowebapp.s3-us-west-2.amazonaws.com/amazon-cognito-identity.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.850.0/aws-sdk.min.js"></script>
+    <script text="text/javascript" src="./cognito.js"></script>
+
+</head>
+
+<body>
+    <div class="w3-bar w3-black">
+        <button class="w3-bar-item w3-button" onclick="openTab('signup')">Sign-up</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('signin')">Sign-in</button>
+        <!-- <button class="w3-bar-item w3-button" onclick="openTab('managemfa')">Manage MFA</button> -->
+        <button class="w3-bar-item w3-button" onclick="openTab('callapisWithAuth')">Call APIs With Auth</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('callapis')">Call APIs</button>
+        <!-- <button class="w3-bar-item w3-button" onclick="openTab('accesss3')">Access S3</button> -->
+      </div>
+
+      <!-- 회원가입을 위한 예시 -->
+      <div id="signup" class="w3-container w3-padding-large w3-grey tab">    
+          <div class="w3-section">
+            <label>Name</label>
+            <input class="w3-input w3-border" type="text" id="signup_name" required>
+          </div>
+          <div class="w3-section">
+            <label>Username</label>
+            <input class="w3-input w3-border" type="text" id="signup_username" required>
+          </div>
+          <div class="w3-section">
+            <label>Email</label>
+            <input class="w3-input w3-border" type="text" id="signup_email" required>
+          </div>
+          <div class="w3-section">
+            <label>Phone</label>
+            <input class="w3-input w3-border" type="text" id="signup_phone" required>
+          </div>
+          <div class="w3-section">
+            <label>Password</label>
+            <input class="w3-input w3-border" type="password" id="signup_password" required>
+          </div>
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="signUp()">Sign Up</button>
+      </div>
+      
+      <!-- 로그인 을 위한 예시 -->
+      <div id="signin" class="w3-container w3-padding-large w3-grey tab" style="display:none">
+          <div class="w3-section">
+            <label>Username</label>
+            <input class="w3-input w3-border" type="text" id="signin_username" required>
+          </div>
+          <div class="w3-section">
+            <label>Password</label>
+            <input class="w3-input w3-border" type="password" id="signin_password" required>
+          </div>
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="signIn()">Sign In</button>
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="signOut()">Sign Out</button>
+          <div class="w3-section" id="tokens">
+            <pre class="" id="idToken"></pre>
+            <pre class="" id="accessToken"></pre>
+          </div>
+      </div>
+      
+      <!-- API 인증 token을 보냈을때 처리 -->
+      <div id="callapisWithAuth" class="w3-container w3-padding-large w3-grey tab" style="display:none">    
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="callAPIWithAuth()">Call API With Auth</button>
+          <div class="w3-section">
+            <pre class="" id="apiresponseWithAuth"></pre>
+          </div>
+      </div>
+
+      <!-- API 인증 없이 보냈을 때 에러를 보여주기 위함 -->
+      <div id="callapis" class="w3-container w3-padding-large w3-grey tab" style="display:none">    
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="callAPI()">Call API</button>
+          <div class="w3-section">
+            <pre class="" id="apiresponse"></pre>
+          </div>
+      </div>
+      
+      <!-- 자격 증명 사용시 예시 -->
+      <!-- <div id="accesss3" class="w3-container w3-padding-large w3-grey tab" style="display:none">  
+          <label>Bucket</label>
+          <input class="w3-input w3-border" type="text" id="bucket_name" value="abac-bucket-1">
+          <label>Prefix</label>
+          <input class="w3-input w3-border" type="text" id="prefix" value="Engineering"><br>
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="listFiles()">List files</button>
+          <pre class="" id="s3files"></pre>
+      </div> -->
+
+      <!-- MFA 인증을 사용 하기 위한 예시 -->
+      <!-- <div id="managemfa" class="w3-container w3-padding-large w3-grey tab" style="display:none">    
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="enableMFA()">Enable MFA</button>
+          <button type="submit" class="w3-button w3-black w3-margin-bottom" onclick="disableMFA()">Disable MFA</button>
+          <div id="qrcode"></div>
+      </div> -->
+      
+</body>
+</html>
